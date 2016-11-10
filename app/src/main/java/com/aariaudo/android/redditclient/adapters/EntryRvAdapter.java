@@ -1,6 +1,7 @@
 package com.aariaudo.android.redditclient.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import com.aariaudo.android.redditclient.R;
 import com.aariaudo.android.redditclient.model.RedditEntry;
 import com.bumptech.glide.Glide;
 
+import java.util.Date;
+
 public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
 {
     public static class EntryViewHolder extends RecyclerView.ViewHolder
     {
         TextView tvEliTitle;
-        TextView tvEliAuthor;
+        TextView tvEliAuthorDate;
         TextView tvEliComments;
         ImageView ivEliTumbnail;
 
@@ -24,7 +27,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
         {
             super(itemView);
             tvEliTitle = (TextView) itemView.findViewById(R.id.tv_eli_title);
-            tvEliAuthor = (TextView) itemView.findViewById(R.id.tv_eli_author);
+            tvEliAuthorDate = (TextView) itemView.findViewById(R.id.tv_eli_author_date);
             tvEliComments = (TextView) itemView.findViewById(R.id.tv_eli_comments);
             ivEliTumbnail = (ImageView) itemView.findViewById(R.id.iv_eli_tumbnail);
         }
@@ -42,9 +45,11 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         RedditEntry entry = getItems().get(position);
+        String dateString = DateUtils.getRelativeTimeSpanString(entry.getDate() * 1000, new Date().getTime(), DateUtils.SECOND_IN_MILLIS).toString();
+
         EntryViewHolder entryViewHolder = (EntryViewHolder) holder;
         entryViewHolder.tvEliTitle.setText(entry.getTitle());
-        entryViewHolder.tvEliAuthor.setText(entry.getAuthor());
+        entryViewHolder.tvEliAuthorDate.setText(String.format(entryViewHolder.tvEliAuthorDate.getContext().getResources().getString(R.string.eli_author_date), entry.getAuthor(), dateString));
         entryViewHolder.tvEliComments.setText(String.valueOf(entry.getComments()));
         Glide.with(entryViewHolder.ivEliTumbnail.getContext()).load(entry.getThumbnail()).centerCrop().into(entryViewHolder.ivEliTumbnail);
     }

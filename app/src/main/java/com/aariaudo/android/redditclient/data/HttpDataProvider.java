@@ -96,7 +96,7 @@ public class HttpDataProvider
                 RedditEntry entry = new RedditEntry();
                 entry.setTitle(entryJson.getString("title"));
                 entry.setAuthor(entryJson.getString("author"));
-                entry.setDate(entryJson.getLong("created"));
+                entry.setDate(entryJson.getLong("created_utc"));
                 entry.setComments(entryJson.getInt("num_comments"));
                 entry.setThumbnail(entryJson.getString("thumbnail"));
                 entries.add(entry);

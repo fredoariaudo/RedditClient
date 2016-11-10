@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.aariaudo.android.redditclient.adapters.EntryRvAdapter;
+import com.aariaudo.android.redditclient.components.DividerItemDecoration;
 import com.aariaudo.android.redditclient.model.RedditEntry;
 import com.aariaudo.android.redditclient.presenters.EntryListPresenter;
 import com.aariaudo.android.redditclient.views.EntryListView;
@@ -31,6 +32,7 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
 
         RecyclerView rvEntryList = (RecyclerView) findViewById(R.id.rv_entry_list);
         rvEntryList.setLayoutManager(new LinearLayoutManager(this));
+        rvEntryList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         adapter = new EntryRvAdapter();
         rvEntryList.setAdapter(adapter);

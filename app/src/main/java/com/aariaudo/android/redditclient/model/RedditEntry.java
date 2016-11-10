@@ -6,6 +6,7 @@ public class RedditEntry
     private String author;
     private long date;
     private int comments;
+    private String thumbnail;
 
     public String getTitle()
     {
@@ -45,5 +46,15 @@ public class RedditEntry
     public void setComments(int comments)
     {
         this.comments = comments;
+    }
+
+    public String getThumbnail()
+    {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail)
+    {
+        this.thumbnail = thumbnail;
     }
 }

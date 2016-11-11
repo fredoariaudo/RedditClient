@@ -5,12 +5,12 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aariaudo.android.redditclient.R;
 import com.aariaudo.android.redditclient.model.RedditEntry;
 import com.bumptech.glide.Glide;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
         TextView tvEliTitle;
         TextView tvEliAuthorDate;
         TextView tvEliComments;
-        ImageView ivEliTumbnail;
+        RoundedImageView ivEliTumbnail;
 
         public EntryViewHolder(View itemView)
         {
@@ -29,7 +29,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
             tvEliTitle = (TextView) itemView.findViewById(R.id.tv_eli_title);
             tvEliAuthorDate = (TextView) itemView.findViewById(R.id.tv_eli_author_date);
             tvEliComments = (TextView) itemView.findViewById(R.id.tv_eli_comments);
-            ivEliTumbnail = (ImageView) itemView.findViewById(R.id.iv_eli_tumbnail);
+            ivEliTumbnail = (RoundedImageView) itemView.findViewById(R.id.iv_eli_tumbnail);
         }
     }
 

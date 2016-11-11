@@ -23,7 +23,7 @@
         android:orientation="horizontal">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_eli_tumbnail"
+            android:id="@+id/iv_eli_thumbnail"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginRight="16dp"

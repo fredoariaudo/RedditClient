@@ -21,7 +21,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
         TextView tvEliTitle;
         TextView tvEliAuthorDate;
         TextView tvEliComments;
-        RoundedImageView ivEliTumbnail;
+        RoundedImageView ivEliThumbnail;
 
         public EntryViewHolder(View itemView)
         {
@@ -29,7 +29,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
             tvEliTitle = (TextView) itemView.findViewById(R.id.tv_eli_title);
             tvEliAuthorDate = (TextView) itemView.findViewById(R.id.tv_eli_author_date);
             tvEliComments = (TextView) itemView.findViewById(R.id.tv_eli_comments);
-            ivEliTumbnail = (RoundedImageView) itemView.findViewById(R.id.iv_eli_tumbnail);
+            ivEliThumbnail = (RoundedImageView) itemView.findViewById(R.id.iv_eli_thumbnail);
         }
     }
 
@@ -51,6 +51,6 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
         entryViewHolder.tvEliTitle.setText(entry.getTitle());
         entryViewHolder.tvEliAuthorDate.setText(String.format(entryViewHolder.tvEliAuthorDate.getContext().getResources().getString(R.string.eli_author_date), entry.getAuthor(), dateString));
         entryViewHolder.tvEliComments.setText(String.valueOf(entry.getComments()));
-        Glide.with(entryViewHolder.ivEliTumbnail.getContext()).load(entry.getThumbnail()).placeholder(R.drawable.entry_default).centerCrop().into(entryViewHolder.ivEliTumbnail);
+        Glide.with(entryViewHolder.ivEliThumbnail.getContext()).load(entry.getThumbnail()).placeholder(R.drawable.entry_default).centerCrop().into(entryViewHolder.ivEliThumbnail);
     }
 }

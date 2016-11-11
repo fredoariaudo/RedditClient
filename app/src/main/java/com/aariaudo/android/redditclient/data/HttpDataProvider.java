@@ -104,6 +104,7 @@ public class HttpDataProvider
         }
         catch(JSONException e)
         {
+            e.printStackTrace();
         }
 
         return entries;

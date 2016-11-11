@@ -1,12 +1,15 @@
 package com.aariaudo.android.redditclient.model;
 
-public class RedditEntry
+import java.io.Serializable;
+
+public class RedditEntry implements Serializable
 {
     private String title;
     private String author;
     private long date;
     private int comments;
     private String thumbnail;
+    private String url;
 
     public String getTitle()
     {
@@ -56,5 +59,15 @@ public class RedditEntry
     public void setThumbnail(String thumbnail)
     {
         this.thumbnail = thumbnail;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
     }
 }

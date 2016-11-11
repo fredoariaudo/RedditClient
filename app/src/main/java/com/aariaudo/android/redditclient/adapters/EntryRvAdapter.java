@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.aariaudo.android.redditclient.R;
 import com.aariaudo.android.redditclient.model.RedditEntry;
+import com.aariaudo.android.redditclient.views.EntryListView;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -16,21 +17,35 @@ import java.util.Date;
 
 public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
 {
-    public static class EntryViewHolder extends RecyclerView.ViewHolder
+    private EntryListView entryListView;
+
+    public class EntryViewHolder extends RecyclerView.ViewHolder
     {
         TextView tvEliTitle;
         TextView tvEliAuthorDate;
         TextView tvEliComments;
         RoundedImageView ivEliThumbnail;
 
-        public EntryViewHolder(View itemView)
+        public EntryViewHolder(View itemView, final EntryListView entryListView)
         {
             super(itemView);
             tvEliTitle = (TextView) itemView.findViewById(R.id.tv_eli_title);
             tvEliAuthorDate = (TextView) itemView.findViewById(R.id.tv_eli_author_date);
             tvEliComments = (TextView) itemView.findViewById(R.id.tv_eli_comments);
             ivEliThumbnail = (RoundedImageView) itemView.findViewById(R.id.iv_eli_thumbnail);
+            ivEliThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    entryListView.onThumbnailClicked(getItems().get(getLayoutPosition()));
+                }
+            });
         }
+    }
+
+    public EntryRvAdapter(EntryListView entryListView)
+    {
+        this.entryListView = entryListView;
     }
 
     @Override
@@ -38,7 +53,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.entry_list_item, parent, false);
-        return new EntryViewHolder(itemView);
+        return new EntryViewHolder(itemView, entryListView);
     }
 
     @Override

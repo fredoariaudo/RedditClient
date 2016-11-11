@@ -1,8 +1,12 @@
 package com.aariaudo.android.redditclient.presenters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.aariaudo.android.redditclient.ImageFsActivity;
+import com.aariaudo.android.redditclient.constants.ExtraKeys;
 import com.aariaudo.android.redditclient.data.HttpDataProvider;
 import com.aariaudo.android.redditclient.model.RedditEntry;
 import com.aariaudo.android.redditclient.views.EntryListView;
@@ -30,6 +34,16 @@ public class EntryListPresenter
         if(entryLoadTask != null)
         {
             entryLoadTask.cancel(true);
+        }
+    }
+
+    public void onThumbnailClicked(Context context, RedditEntry redditEntry)
+    {
+        if(redditEntry.getThumbnail() !=null && redditEntry.getThumbnail().contains("http"))
+        {
+            Intent intent = new Intent(context, ImageFsActivity.class);
+            intent.putExtra(ExtraKeys.REDDIT_ENTRY, redditEntry);
+            context.startActivity(intent);
         }
     }
 

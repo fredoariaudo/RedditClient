@@ -9,4 +9,5 @@ public interface EntryListView
     void showProgress();
     void hideProgress();
     void addItems(ArrayList<RedditEntry> entries);
+    void onThumbnailClicked(RedditEntry redditEntry);
 }

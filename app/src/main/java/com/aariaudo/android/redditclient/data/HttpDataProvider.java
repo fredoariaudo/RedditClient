@@ -99,6 +99,7 @@ public class HttpDataProvider
                 entry.setDate(entryJson.getLong("created_utc"));
                 entry.setComments(entryJson.getInt("num_comments"));
                 entry.setThumbnail(entryJson.getString("thumbnail"));
+                entry.setUrl(entryJson.getString("url"));
                 entries.add(entry);
             }
         }

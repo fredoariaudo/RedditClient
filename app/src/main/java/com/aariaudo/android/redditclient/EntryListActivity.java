@@ -34,7 +34,7 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
         rvEntryList.setLayoutManager(new LinearLayoutManager(this));
         rvEntryList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
-        adapter = new EntryRvAdapter();
+        adapter = new EntryRvAdapter(this);
         rvEntryList.setAdapter(adapter);
 
         entryListPresenter = new EntryListPresenter(this);
@@ -64,5 +64,11 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
     public void addItems(ArrayList<RedditEntry> entries)
     {
         adapter.addAll(entries);
+    }
+
+    @Override
+    public void onThumbnailClicked(RedditEntry redditEntry)
+    {
+        entryListPresenter.onThumbnailClicked(this, redditEntry);
     }
 }

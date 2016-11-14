@@ -2,4 +2,5 @@
     <string name="app_name">reddit</string>
     <string name="eli_author_date">%1$s • %2$s</string>
     <string name="empty_reddit_list">No items to show</string>
+    <string name="internet_connection_needed">An internet connection is needed to use this app</string>
 </resources>

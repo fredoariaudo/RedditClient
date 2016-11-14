@@ -1,5 +1,6 @@
 package com.aariaudo.android.redditclient;
 
+import android.content.Context;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.aariaudo.android.redditclient.adapters.EntryRvAdapter;
 import com.aariaudo.android.redditclient.components.DividerItemDecoration;
@@ -87,6 +89,18 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
     {
         super.onSaveInstanceState(outState);
         outState.putSerializable(ExtraKeys.REDDIT_ENTRIES, adapter.getItems());
+    }
+
+    @Override
+    public Context getContext()
+    {
+        return this;
+    }
+
+    @Override
+    public void showNoInternetMessage()
+    {
+        Toast.makeText(this, getString(R.string.internet_connection_needed), Toast.LENGTH_LONG).show();
     }
 
     @Override

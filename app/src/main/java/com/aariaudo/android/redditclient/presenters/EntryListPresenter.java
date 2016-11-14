@@ -11,6 +11,7 @@ import com.aariaudo.android.redditclient.ImageFsActivity;
 import com.aariaudo.android.redditclient.constants.ExtraKeys;
 import com.aariaudo.android.redditclient.data.HttpDataProvider;
 import com.aariaudo.android.redditclient.model.RedditEntry;
+import com.aariaudo.android.redditclient.utils.Utils;
 import com.aariaudo.android.redditclient.views.EntryListView;
 
 import java.util.ArrayList;
@@ -101,6 +102,9 @@ public class EntryListPresenter
         @Override
         protected void onPreExecute()
         {
+            if(!Utils.isOnline(entryListView.getContext()))
+                entryListView.showNoInternetMessage();
+
             if(showLoading)
             {
                 entryListView.disableSwipeGesture();

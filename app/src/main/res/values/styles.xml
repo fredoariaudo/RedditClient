@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="text_author_date">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+    </style>
+
+    <style name="text_title">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="text_comments">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+        <item name="android:gravity">top</item>
+        <item name="android:drawableLeft">@drawable/ic_comment_18dp</item>
+        <item name="android:drawablePadding">4dp</item>
+    </style>
+
+    <style name="text_no_items">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

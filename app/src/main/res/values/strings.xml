@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Reddit Client</string>
+    <string name="app_name">reddit</string>
     <string name="eli_author_date">%1$s • %2$s</string>
     <string name="empty_reddit_list">No items to show</string>
-
 </resources>

@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/activity_margin"
     android:background="@android:drawable/divider_horizontal_bright">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:text="@string/empty_reddit_list"/>
+        android:text="@string/empty_reddit_list"
+        style="@style/text_no_items"/>
 
 </LinearLayout>

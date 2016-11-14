@@ -17,4 +17,14 @@ public class ImageFsPresenter
     {
         imageFsView.loadUrl();
     }
+
+    public void onPageStarted()
+    {
+        imageFsView.showProgress();
+    }
+
+    public void onPageFinished()
+    {
+        imageFsView.hideProgress();
+    }
 }

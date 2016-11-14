@@ -113,7 +113,7 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
             entryViewHolder.tvEliTitle.setText(entry.getTitle());
             entryViewHolder.tvEliAuthorDate.setText(String.format(entryViewHolder.tvEliAuthorDate.getContext().getResources().getString(R.string.eli_author_date), entry.getAuthor(), dateString));
             entryViewHolder.tvEliComments.setText(String.valueOf(entry.getComments()));
-            Glide.with(entryViewHolder.ivEliThumbnail.getContext()).load(entry.getThumbnail()).placeholder(R.drawable.entry_default).centerCrop().into(entryViewHolder.ivEliThumbnail);
+            Glide.with(entryViewHolder.ivEliThumbnail.getContext()).load(entry.getThumbnail()).centerCrop().error(R.drawable.entry_default).into(entryViewHolder.ivEliThumbnail);
         }
     }
 }

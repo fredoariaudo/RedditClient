@@ -11,6 +11,8 @@ public interface EntryListView
 
     void showProgress();
     void hideProgress();
+    void enableSwipeGesture();
+    void disableSwipeGesture();
     void addItems(ArrayList<RedditEntry> entries);
     void refreshItems();
     void loadMore();

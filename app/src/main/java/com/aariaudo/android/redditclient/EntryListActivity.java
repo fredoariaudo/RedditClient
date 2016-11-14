@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.aariaudo.android.redditclient.adapters.EntryRvAdapter;
 import com.aariaudo.android.redditclient.components.DividerItemDecoration;
+import com.aariaudo.android.redditclient.constants.ExtraKeys;
 import com.aariaudo.android.redditclient.model.RedditEntry;
 import com.aariaudo.android.redditclient.presenters.EntryListPresenter;
 import com.aariaudo.android.redditclient.views.EntryListView;
@@ -26,6 +28,7 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
 
     private EntryListPresenter entryListPresenter;
     private boolean loading = false;
+    private boolean refreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +42,7 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
             @Override
             public void onRefresh()
             {
+                refreshing = true;
                 entryListPresenter.onRefreshList();
             }
         });
@@ -54,6 +58,13 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
             {
                 super.onScrolled(recyclerView, dx, dy);
                 entryListPresenter.onEntryListScroll(recyclerView, dy, loading);
+            }
+        });
+        rvEntryList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return refreshing;
             }
         });
 
@@ -72,6 +83,13 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(ExtraKeys.REDDIT_ENTRIES, adapter.getItems());
+    }
+
+    @Override
     public void showProgress()
     {
         pbEntryList.setVisibility(View.VISIBLE);
@@ -81,6 +99,18 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
     public void hideProgress()
     {
         pbEntryList.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void enableSwipeGesture()
+    {
+        srlEntryList.setEnabled(true);
+    }
+
+    @Override
+    public void disableSwipeGesture()
+    {
+        srlEntryList.setEnabled(false);
     }
 
     @Override
@@ -103,6 +133,7 @@ public class EntryListActivity extends AppCompatActivity implements EntryListVie
 
         srlEntryList.setRefreshing(false);
         loading = false;
+        refreshing = false;
     }
 
     @Override

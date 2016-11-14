@@ -27,7 +27,15 @@ public class EntryListPresenter
 
     public void onCreate(Bundle savedInstanceState)
     {
-        loadEntries(null, true);
+        if(savedInstanceState == null)
+        {
+            loadEntries(null, true);
+        }
+        else
+        {
+            ArrayList<RedditEntry> entries = (ArrayList<RedditEntry>) savedInstanceState.getSerializable(ExtraKeys.REDDIT_ENTRIES);
+            entryListView.addItems(entries);
+        }
     }
 
     public void onStop()
@@ -94,7 +102,10 @@ public class EntryListPresenter
         protected void onPreExecute()
         {
             if(showLoading)
+            {
+                entryListView.disableSwipeGesture();
                 entryListView.showProgress();
+            }
         }
 
         @Override
@@ -109,7 +120,10 @@ public class EntryListPresenter
             entryListView.addItems(entries);
 
             if(showLoading)
+            {
                 entryListView.hideProgress();
+                entryListView.enableSwipeGesture();
+            }
         }
     }
 }

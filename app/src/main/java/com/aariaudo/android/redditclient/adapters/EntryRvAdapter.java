@@ -17,6 +17,10 @@ import java.util.Date;
 
 public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
 {
+    private static final int VIEW_TYPE_ENTRY = 0;
+    private static final int VIEW_TYPE_LOADING = 1;
+    private static final int VIEW_TYPE_EMPTY = 2;
+
     private EntryListView entryListView;
 
     public class EntryViewHolder extends RecyclerView.ViewHolder
@@ -43,29 +47,73 @@ public class EntryRvAdapter extends ArrayRvAdapter<RedditEntry>
         }
     }
 
+    public class LoadingViewHolder extends RecyclerView.ViewHolder
+    {
+        public LoadingViewHolder(View itemView)
+        {
+            super(itemView);
+        }
+    }
+
+    public class EmptyViewHolder extends RecyclerView.ViewHolder
+    {
+        public EmptyViewHolder(View itemView)
+        {
+            super(itemView);
+        }
+    }
+
     public EntryRvAdapter(EntryListView entryListView)
     {
         this.entryListView = entryListView;
     }
 
     @Override
-    public EntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public int getItemViewType(int position)
+    {
+        if(getItems().get(position).getTitle().equals(RedditEntry.REDDIT_ENTRY_EMPTY))
+            return VIEW_TYPE_EMPTY;
+        else if(getItems().get(position).getTitle().equals(RedditEntry.REDDIT_ENTRY_LOADING))
+            return VIEW_TYPE_LOADING;
+        else
+            return VIEW_TYPE_ENTRY;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.entry_list_item, parent, false);
-        return new EntryViewHolder(itemView, entryListView);
+
+        if(viewType == VIEW_TYPE_ENTRY)
+        {
+            View itemView = inflater.inflate(R.layout.entry_list_item, parent, false);
+            return new EntryViewHolder(itemView, entryListView);
+        }
+        else if(viewType == VIEW_TYPE_LOADING)
+        {
+            View itemView = inflater.inflate(R.layout.entry_list_loading_item, parent, false);
+            return new LoadingViewHolder(itemView);
+        }
+        else
+        {
+            View itemView = inflater.inflate(R.layout.entry_list_empty_item, parent, false);
+            return new EmptyViewHolder(itemView);
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        RedditEntry entry = getItems().get(position);
-        String dateString = DateUtils.getRelativeTimeSpanString(entry.getDate() * 1000, new Date().getTime(), DateUtils.SECOND_IN_MILLIS).toString();
+        if(holder instanceof EntryViewHolder)
+        {
+            RedditEntry entry = getItems().get(position);
+            String dateString = DateUtils.getRelativeTimeSpanString(entry.getDate() * 1000, new Date().getTime(), DateUtils.SECOND_IN_MILLIS).toString();
 
-        EntryViewHolder entryViewHolder = (EntryViewHolder) holder;
-        entryViewHolder.tvEliTitle.setText(entry.getTitle());
-        entryViewHolder.tvEliAuthorDate.setText(String.format(entryViewHolder.tvEliAuthorDate.getContext().getResources().getString(R.string.eli_author_date), entry.getAuthor(), dateString));
-        entryViewHolder.tvEliComments.setText(String.valueOf(entry.getComments()));
-        Glide.with(entryViewHolder.ivEliThumbnail.getContext()).load(entry.getThumbnail()).placeholder(R.drawable.entry_default).centerCrop().into(entryViewHolder.ivEliThumbnail);
+            EntryViewHolder entryViewHolder = (EntryViewHolder) holder;
+            entryViewHolder.tvEliTitle.setText(entry.getTitle());
+            entryViewHolder.tvEliAuthorDate.setText(String.format(entryViewHolder.tvEliAuthorDate.getContext().getResources().getString(R.string.eli_author_date), entry.getAuthor(), dateString));
+            entryViewHolder.tvEliComments.setText(String.valueOf(entry.getComments()));
+            Glide.with(entryViewHolder.ivEliThumbnail.getContext()).load(entry.getThumbnail()).placeholder(R.drawable.entry_default).centerCrop().into(entryViewHolder.ivEliThumbnail);
+        }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.aariaudo.android.redditclient.ImageFsActivity;
 import com.aariaudo.android.redditclient.constants.ExtraKeys;
@@ -25,8 +27,7 @@ public class EntryListPresenter
 
     public void onCreate(Bundle savedInstanceState)
     {
-        entryLoadTask = new EntryLoadTask();
-        entryLoadTask.execute();
+        loadEntries(null, true);
     }
 
     public void onStop()
@@ -34,6 +35,37 @@ public class EntryListPresenter
         if(entryLoadTask != null)
         {
             entryLoadTask.cancel(true);
+        }
+    }
+
+    public void loadEntries(String lastEntryName, boolean showLoading)
+    {
+        entryLoadTask = new EntryLoadTask(lastEntryName, showLoading);
+        entryLoadTask.execute();
+    }
+
+    public void onRefreshList()
+    {
+        entryListView.refreshItems();
+    }
+
+    public void onEntryListScroll(RecyclerView recyclerView, int dy, boolean loading)
+    {
+        if(dy > 0)
+        {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            int totalItemCount = linearLayoutManager.getItemCount();
+
+            if(!loading && totalItemCount < EntryListView.TOTAL_ITEMS_TO_SHOW)
+            {
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if((visibleItemCount + pastVisibleItems) >= totalItemCount)
+                {
+                    entryListView.loadMore();
+                }
+            }
         }
     }
 
@@ -49,23 +81,35 @@ public class EntryListPresenter
 
     private class EntryLoadTask extends AsyncTask<Void, Integer, ArrayList<RedditEntry>>
     {
+        private String lastEntryName;
+        private boolean showLoading;
+
+        public EntryLoadTask(String lastEntryName, boolean showLoading)
+        {
+            this.lastEntryName = lastEntryName;
+            this.showLoading = showLoading;
+        }
+
         @Override
         protected void onPreExecute()
         {
-            entryListView.showProgress();
+            if(showLoading)
+                entryListView.showProgress();
         }
 
         @Override
         protected ArrayList<RedditEntry> doInBackground(Void... params)
         {
-            return HttpDataProvider.getInstance().getEntries();
+            return HttpDataProvider.getInstance().getEntries(lastEntryName);
         }
 
         @Override
         protected void onPostExecute(ArrayList<RedditEntry> entries)
         {
             entryListView.addItems(entries);
-            entryListView.hideProgress();
+
+            if(showLoading)
+                entryListView.hideProgress();
         }
     }
 }

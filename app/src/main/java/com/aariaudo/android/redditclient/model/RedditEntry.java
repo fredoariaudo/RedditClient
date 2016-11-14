@@ -4,12 +4,35 @@ import java.io.Serializable;
 
 public class RedditEntry implements Serializable
 {
+    public static final String REDDIT_ENTRY_LOADING = "loading";
+    public static final String REDDIT_ENTRY_EMPTY = "empty";
+
+    private String name;
     private String title;
     private String author;
     private long date;
     private int comments;
     private String thumbnail;
     private String url;
+
+    public RedditEntry()
+    {
+    }
+
+    public RedditEntry(String title)
+    {
+        this.title = title;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
     public String getTitle()
     {

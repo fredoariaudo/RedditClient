@@ -1,6 +1,7 @@
 package com.aariaudo.android.redditclient.data;
 
 import com.aariaudo.android.redditclient.model.RedditEntry;
+import com.aariaudo.android.redditclient.views.EntryListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,9 @@ import java.util.ArrayList;
 
 public class HttpDataProvider
 {
+    public static final String URL_REDDIT_TOP = "https://www.reddit.com/top.json";
     public static final String ENCODING_SERVER = "UTF-8";
+
     private static HttpDataProvider httpDataProvider;
 
     public static synchronized HttpDataProvider getInstance()
@@ -46,7 +49,7 @@ public class HttpDataProvider
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
 
-                //Escribe los parametros
+                //Write parameters
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, ENCODING_SERVER));
                 writer.write(params);
@@ -80,11 +83,11 @@ public class HttpDataProvider
         return response.toString();
     }
 
-    public ArrayList<RedditEntry> getEntries()
+    public ArrayList<RedditEntry> getEntries(String lastEntryName)
     {
         ArrayList<RedditEntry> entries = new ArrayList<RedditEntry>();
 
-        String response = sendHttpRequest("https://www.reddit.com/top.json", null);
+        String response = sendHttpRequest(URL_REDDIT_TOP + "?count=" + EntryListView.NUM_ITEMS_TO_LOAD + (lastEntryName!=null?"&after="+lastEntryName:""), null);
 
         try
         {
@@ -94,6 +97,7 @@ public class HttpDataProvider
             {
                 JSONObject entryJson = entriesArray.getJSONObject(i).getJSONObject("data");
                 RedditEntry entry = new RedditEntry();
+                entry.setName(entryJson.getString("name"));
                 entry.setTitle(entryJson.getString("title"));
                 entry.setAuthor(entryJson.getString("author"));
                 entry.setDate(entryJson.getLong("created_utc"));

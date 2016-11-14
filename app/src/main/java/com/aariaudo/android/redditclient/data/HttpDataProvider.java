@@ -34,7 +34,7 @@ public class HttpDataProvider
         return httpDataProvider;
     }
 
-    public String sendHttpRequest(String urlString, String params)
+    private String sendHttpRequest(String urlString, String params)
     {
         StringBuilder response = new StringBuilder();
 

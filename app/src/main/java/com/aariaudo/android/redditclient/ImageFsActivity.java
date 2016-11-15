@@ -38,6 +38,8 @@ public class ImageFsActivity extends AppCompatActivity implements ImageFsView
         wbImageView = (WebView) findViewById(R.id.wb_image_view);
         WebSettings webSettings = wbImageView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
         wbImageView.setWebViewClient(new WebViewClient()
         {
             @Override
